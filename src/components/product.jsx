@@ -6,33 +6,49 @@ class Product extends Component {
     console.log("Product =>> WillUNMPUNT");
   }
   render() {
-    console.log("Product =>> Render");
-    const { name, count } = this.props.product;
+    const { image, name, count } = this.props.product;
     return (
       <>
         <div>
-          <span>{name}</span>
-          <span
-            className={
-              count === 0
-                ? "badge badge-warning m-2"
-                : "badge badge-primary m-2"
-            }
-          >
-            {count}
-          </span>
-          <button
-            onClick={() => this.props.onIncrement(this.props.product)}
-            className="btn btn-primary btn-sm m-2"
-          >
-            +
-          </button>
-          <button
-            onClick={() => this.props.onDelete(this.props.product)}
-            className="btn btn-danger btn-sm m-2"
-          >
-            <i className="fas fa-trash"></i>
-          </button>
+          <table className="table">
+            <tbody>
+              <tr>
+                <td>
+                  <img
+                    src={image}
+                    alt=""
+                    style={{ height: "60px", width: "100px" }}
+                  ></img>
+                </td>
+                <td>{name}</td>
+                <td>
+                  {" "}
+                  <span
+                    onClick={() => this.props.onDecrement(this.props.product)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    -
+                  </span>
+                  <span> {count + 1} </span>
+                  <span
+                    onClick={() => this.props.onIncrement(this.props.product)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    +
+                  </span>
+                </td>
+                <td>
+                  {" "}
+                  <button
+                    onClick={() => this.props.onDelete(this.props.product)}
+                    className="btn btn-danger btn-sm m-2"
+                  >
+                    <i className="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </>
     );

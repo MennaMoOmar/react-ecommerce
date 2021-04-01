@@ -5,11 +5,11 @@ const Filter = (props) => {
     <ul className="list-group">
       {props.types.map((typ) => (
         <li
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer"}}
           onClick={() => props.onActiveFilterChange(typ)}
           className={
             props.activeFilter === typ.id
-              ? "list-group-item active"
+              ? "list-group-item active bg-dark border-0"
               : "list-group-item"
           }
           key={typ.id}

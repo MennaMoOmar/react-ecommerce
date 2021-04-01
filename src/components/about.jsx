@@ -1,22 +1,16 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
-import AboutCompany from "./about-company";
-import AboutTeam from "./about-team";
 
 const About = (props) => {
   return (
-    <>
-      <div className="row m-3">
-        <div className="col-3 d-flex flex-column">
-          <Link to="/about/team">About Team</Link>
-          <Link to="/about/company">About Compay</Link>
-        </div>
-        <div className="col">
-          <Route path="/about/team" component={AboutTeam} />
-          <Route path="/about/company" component={AboutCompany} />
+    <React.Fragment>
+      <div className="row" style={{margin:"0px", padding:"0px"}}>
+        <div className="col-lg-6" style={{backgroundImage:"url('./images/about.jpeg')",backgroundSize:"100% 100%", height:"90vh"}}></div>
+        <div className="col-lg-6 text-center d-flex" style={{flexDirection:"column", justifyContent:"center", backgroundColor:"#e7e5e0"}}>
+          <h2 style={{color:"#af3810", marginBottom:"2rem"}}>About Us</h2>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque doloremque repellendus in ratione reiciendis excepturi asperiores quaerat nisi. Optio, sunt dicta tempore labore obcaecati praesentium dolor enim? Ipsam, ipsa iusto!</p>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

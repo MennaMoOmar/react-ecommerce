@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import axios from "axios";
 
-import NavBar from "./components/navbar/navbar";
+import NavBar from "./components/navbar";
 import ShoppingCart from "./components/shoppingCart";
 import About from "./components/about";
 import ContactUs from "./components/contactus";
 import Home from "./components/home";
-import User from "./components/user";
 import NotFound from "./components/notfound";
 import Menu from "./components/menu";
+import Admin from "./components/admin";
+import AdminAdd from "./components/adminAdd";
 
 class App extends Component {
   state = {
@@ -18,69 +20,22 @@ class App extends Component {
       { id: 2, name: "Fries" },
       { id: 3, name: "Cola" },
     ],
-    products: [
-      {
-        id: 1,
-        type: 1,
-        name: "Burger",
-        image: "./images/beefburger.png",
-        count: 0,
-        price: 30,
-        inCart: false,
-      },
-      {
-        id: 2,
-        type: 2,
-        name: "Fries",
-        image: "./images/fries.jpg",
-        count: 0,
-        price: 20,
-        inCart: false,
-      },
-      {
-        id: 3,
-        type: 3,
-        name: "Cola",
-        image: "./images/coke.png",
-        count: 0,
-        price: 10,
-        inCart: false,
-      },
-      {
-        id: 4,
-        type: 1,
-        name: "Large Burger",
-        image: "./images/largeburger.jpg",
-        count: 0,
-        price: 40,
-        inCart: false,
-      },
-      {
-        id: 5,
-        type: 2,
-        name: "Large Fries",
-        image: "./images/fries.jpg",
-        count: 0,
-        price: 25,
-        inCart: false,
-      },
-      {
-        id: 6,
-        type: 3,
-        name: "Large Cola",
-        image: "./images/coke.png",
-        count: 0,
-        price: 15,
-        inCart: false,
-      },
-    ],
+    products: [],
     pageSize: 4,
     activePage: 1,
     activeFilter: 0,
   };
 
+  async componentDidMount() {
+    const { data } = await axios.get("http://localhost:3003/products");
+    this.setState({ products: data });
+  }
+
   /* delete */
-  handleDelete = (product) => {
+  handleDeleteDB = async (product) => {
+    console.log(product.id);
+
+    await axios.delete("http://localhost:3003/products/" + product.id);
     // Clone
     const newProducts = [...this.state.products];
     // Edit
@@ -89,19 +44,17 @@ class App extends Component {
     this.setState({ products: filteredProducts });
   };
 
-  /* reset */
-  handleReset = () => {
+  /* delete */
+  handleDelete = async (product) => {
     // Clone
-    let products = [...this.state.products];
+    const newProducts = [...this.state.products];
     // Edit
-    products = products.map((p) => {
-      return { ...p, count: 0 };
-    });
+    const filteredProducts = newProducts.filter((p) => p.id !== product.id);
     // Set State
-    this.setState({ products });
+    this.setState({ products: filteredProducts });
   };
 
-  //   increment
+  /* increment */
   handleIncrement = (product) => {
     // Clone
     let products = [...this.state.products];
@@ -122,10 +75,6 @@ class App extends Component {
     //edit
     if (products[index].count <= 0) {
       return;
-    }
-    console.log(products[index].count);
-    if (products[index].count <= 1) {
-      document.querySelectorAll(".addCart")[index].textContent = "Add to cart";
     }
     products[index].count--;
     //set state
@@ -159,7 +108,7 @@ class App extends Component {
     return (
       <>
         <NavBar count={this.state.products.filter((p) => p.count > 0).length} />
-        <main className="container">
+        <main>
           <Switch>
             <Route
               path="/cart"
@@ -167,8 +116,8 @@ class App extends Component {
                 <ShoppingCart
                   products={this.state.products.filter((p) => p.inCart)}
                   onIncrement={this.handleIncrement}
+                  onDecrement={this.handleDecrement}
                   onDelete={this.handleToggleInCart}
-                  onReset={this.handleReset}
                 />
               )}
             />
@@ -187,20 +136,32 @@ class App extends Component {
                 />
               )}
             />
+            <Route
+              path="/admin"
+              render={(props) => (
+                <Admin
+                  {...props}
+                  key={this.state.products.id}
+                  products={this.state.products}
+                  onDelete={this.handleDeleteDB}
+                  types={this.state.types}
+                  pageSize={this.state.pageSize}
+                  activePage={this.state.activePage}
+                  activeFilter={this.state.activeFilter}
+                  onToggleInCart={this.handleToggleInCart}
+                  onActivePageChange={this.handleChangeActivePage}
+                  onActiveFilterChange={this.handleChangeActiveFilter}
+                />
+              )}
+            />
+            <Route path="/adminAdd/:id" component={AdminAdd} />
             <Route path="/about" component={About} />
             <Route path="/contactus" component={ContactUs} />
-            <Route path="/user/:id" component={User} />
             <Route path="/not-found" component={NotFound} />
             <Route path="/home" component={Home} />
             <Redirect from="/" exact to="/home" />
             <Redirect to="/not-found" />
           </Switch>
-          {/* <ShoppingCart
-            products={this.state.products}
-            onIncrement={this.handleIncrement}
-            onDelete={this.handleDelete}
-            onReset={this.handleReset}
-          /> */}
         </main>
       </>
     );

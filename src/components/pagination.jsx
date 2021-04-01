@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css"
 
 const Pagination = (props) => {
   let pages = Math.ceil(props.count / props.pageSize);
@@ -8,18 +9,24 @@ const Pagination = (props) => {
   }
   return (
     <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {pagesArray.map((page) => (
-          <li
-            onClick={() => props.onActivePageChange(page)}
-            class={page == props.activePage ? "page-item active" : "page-item"}
-          >
-            <a class="page-link" href="#">
-              {page}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div style={{display:"grid", justifyContent:"center"}}>
+        <ul className="pagination">
+          {pagesArray.map((page) => (
+            <li
+              onClick={() => props.onActivePageChange(page)}
+              className={
+                page === props.activePage
+                  ? "page-item active bg-dark border-0"
+                  : "page-item"
+              }
+            >
+              <span className="page-link">
+                {page}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   );
 };

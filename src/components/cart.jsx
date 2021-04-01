@@ -11,7 +11,7 @@ const Cart = (props) => {
     <i
       onClick={() => props.onToggleInCart(props.product)}
       style={props.product.inCart ? null : { color: "#80808080" }}
-      class="fas fa-cart-plus"
+      className="fas fa-cart-plus"
     ></i>
   );
 };
