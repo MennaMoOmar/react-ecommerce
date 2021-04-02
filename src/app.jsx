@@ -12,6 +12,9 @@ import Menu from "./components/menu";
 import Admin from "./components/admin";
 import AdminAdd from "./components/adminAdd";
 
+import AdminHooks from "./components/adminHooks";
+import AdminHooksCRUD from "./components/adminHooksCRUD";
+
 class App extends Component {
   state = {
     types: [
@@ -136,6 +139,8 @@ class App extends Component {
                 />
               )}
             />
+            <Route path="/adminHooks" render={() => <AdminHooks />} />
+            <Route path="/adminHooksCRUD" render={() => <AdminHooksCRUD />} />
             <Route
               path="/admin"
               render={(props) => (

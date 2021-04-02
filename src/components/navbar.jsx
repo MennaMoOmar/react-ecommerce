@@ -50,9 +50,15 @@ const NavBar = (props) => {
             </li>
           </ul>
         </div>
-        <button className="btn btn-danger" style={{ backgroundColor: "#af3810", borderColor:"#af3810"}}>
+        <button className="btn btn-danger" style={{ backgroundColor: "#af3810", borderColor:"#af3810", marginRight:"10px"}}>
           <NavLink className="nav-link" to="/admin" style={{color:"white", padding:"0px"}}>
             Admin
+          </NavLink>
+        </button>
+
+        <button className="btn btn-danger" style={{ backgroundColor: "#af3810", borderColor:"#af3810"}}>
+          <NavLink className="nav-link" to="/adminHooks" style={{color:"white", padding:"0px"}}>
+            Admin Hooks
           </NavLink>
         </button>
       </div>
