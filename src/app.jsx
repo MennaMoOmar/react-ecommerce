@@ -139,8 +139,8 @@ class App extends Component {
                 />
               )}
             />
-            <Route path="/adminHooks" render={() => <AdminHooks />} />
-            <Route path="/adminHooksCRUD" render={() => <AdminHooksCRUD />} />
+            <Route path="/adminHooks"  render={(props) => <AdminHooks {...props}/>} />
+            <Route path="/adminHooksCRUD" render={(props) => <AdminHooksCRUD {...props}/>} />
             <Route
               path="/admin"
               render={(props) => (

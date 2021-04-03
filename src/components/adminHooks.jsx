@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Cart from "./cart";
+import axios from "axios";
 import Filter from "./filter";
 import Pagination from "./pagination";
 import Sort from "./sort";
 
-const AdminHooks = () => {
+const AdminHooks = (props) => {
   const [products, setproducts] = useState([]);
   const [pageSize, setpageSize] = useState();
   const [activePage, setactivePage] = useState();
@@ -23,6 +23,36 @@ const AdminHooks = () => {
     ]);
   }, []);
 
+  //get data
+  useEffect(async () => {
+    const { data } = await axios.get("http://localhost:3003/products");
+    setproducts(data);
+  }, []);
+
+  //handleChangeActivePage
+  let handleChangeActivePage = (page) => {
+      setactivePage(page);
+  };
+
+  //handleChangeActiveFilter
+  let handleChangeActiveFilter = (type) => {
+    setactiveFilter(type.id);
+    setactivePage(1)
+  };
+
+  //handleDeleteDB
+  let handleDeleteDB = async (product) => {
+    console.log(product.id);
+
+    await axios.delete("http://localhost:3003/products/" + product.id);
+    // Clone
+    const newProducts = [...products];
+    // Edit
+    const filteredProducts = newProducts.filter((p) => p.id !== product.id);
+    // Set State
+    setproducts(filteredProducts)
+  };
+
   // Filter
   let filteredProducts = products;
   if (activeFilter)
@@ -30,7 +60,6 @@ const AdminHooks = () => {
   let sortedProd = filteredProducts;
   //sort asc
   const sortAsc = () => {
-    console.log("asc");
     const sortedProductAsc = [...filteredProducts];
     sortedProductAsc.sort((a, b) => {
       if (a.name < b.name) {
@@ -42,12 +71,11 @@ const AdminHooks = () => {
       return 0;
     });
     sortedProd = sortedProductAsc;
-    console.log(sortedProd);
+    setproducts(sortedProd)
   };
 
   //sort desc
   const sortDesc = () => {
-    console.log("desc");
     const sortedProductDesc = [...filteredProducts];
     sortedProductDesc.sort((a, b) => {
       if (a.name > b.name) {
@@ -59,7 +87,7 @@ const AdminHooks = () => {
       return 0;
     });
     sortedProd = sortedProductDesc;
-    console.log(sortedProd);
+    setproducts(sortedProd)
   };
   // Pagination
   let start = (activePage - 1) * pageSize;
@@ -73,7 +101,7 @@ const AdminHooks = () => {
           <Filter
             types={types}
             activeFilter={activeFilter}
-            //   onActiveFilterChange={this.props.onActiveFilterChange}
+              onActiveFilterChange={handleChangeActiveFilter}
           />
           <Sort
             products={products}
@@ -111,16 +139,16 @@ const AdminHooks = () => {
                   <td style={{ cursor: "pointer" }}>
                     <button
                       className="btn btn-success"
-                      // onClick={() =>
-                      //   this.props.history.push(`/adminAdd/${prdct.id}`)
-                      // }
+                      onClick={() =>
+                        props.history.push(`/adminHooksCRUD/${prdct.id}`)
+                      }
                       style={{ marginRight: "10px" }}
                     >
                       Edit
                     </button>
                     <button
                       className="btn btn-danger"
-                      // onClick={() => onDelete(prdct)}
+                      onClick={() => handleDeleteDB(prdct)}
                     >
                       Delete
                     </button>
@@ -137,12 +165,12 @@ const AdminHooks = () => {
               pageSize={pageSize}
               activePage={activePage}
               count={sortedProd.length}
-              onActivePageChange={this.props.onActivePageChange}
+              onActivePageChange={handleChangeActivePage}
             />
           )}
           <button
             className="btn btn-dark"
-            // onClick={() => this.props.history.push("/adminAdd/new")}
+            onClick={() =>props.history.push("/adminHooksCRUD/new")}
           >
             Add
           </button>
