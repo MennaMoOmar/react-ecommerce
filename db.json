@@ -56,41 +56,13 @@
     },
     {
       "name": "menna",
+      "price": 20,
+      "type": 2,
+      "image": "./images/default.jpg",
       "count": 0,
       "isInCart": false,
-      "id": 8
-    },
-    {
-      "id": 9,
-      "name": "A",
-      "image": "./images/default.jpg",
-      "type": "3",
-      "price": "20",
       "errors": {},
-      "count": 0,
-      "isInCart": false
-    },
-    {
-      "name": "menna",
-      "image": "./images/default.jpg",
-      "type": "2",
-      "price": "8",
-      "count": 0,
-      "isInCart": false,
-      "id": 10
-    },
-    {
-      "type": "3",
-      "price": "202",
-      "count": 0,
-      "isInCart": false,
-      "id": 11
-    },
-    {
-      "price": "202",
-      "count": 0,
-      "isInCart": false,
-      "id": 13
+      "id": 7
     }
   ]
 }

@@ -73,6 +73,7 @@ const AdminHooks = (props) => {
     sortedProd = sortedProductAsc;
     setproducts(sortedProd)
   };
+  {console.log(products)}
 
   //sort desc
   const sortDesc = () => {
@@ -159,6 +160,7 @@ const AdminHooks = (props) => {
           </table>
 
           {/* Pagination */}
+          {/* {console.log(products)} */}
           {sortedProd.length >= pageSize && (
             <Pagination
               key={products.id}
